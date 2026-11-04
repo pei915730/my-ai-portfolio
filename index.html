@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<title>Pei｜LINE 貼圖創作展</title>
+<meta name="description" content="Pei 的 LINE 貼圖作品與創作心得：16 張全螢幕動畫、四組貼圖，以及帶領學生一起創作的過程。">
+<style>
+:root{
+  --paper:#FFF8EE; --card:#FFFDF8; --ink:#4A3B32; --soft:#6F5F53; --line:#E8D5BE;
+  --accent:#F2A65A; --accent-d:#B8601C; --on-accent:#3A2418;
+  --note1:#FFE08A; --note2:#F8C8B8; --note3:#BFE3D0; --note4:#CFE6F2; --note-ink:#3E2F26;
+  --curtain1:#F2A65A; --curtain2:#F6B876; --sticker-bg:#FFFDF8; --shadow:rgba(74,59,50,.22);
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --paper:#2A211C; --card:#382D26; --ink:#F6EADB; --soft:#D6C5B3; --line:#55453A;
+    --accent:#F2A65A; --accent-d:#F2A65A; --on-accent:#3A2418;
+    --note1:#6B5A2A; --note2:#744C41; --note3:#3F6354; --note4:#3E5868; --note-ink:#FFF3DC;
+    --curtain1:#B8742F; --curtain2:#A9671F; --shadow:rgba(0,0,0,.5);
+  }
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei","Heiti TC",system-ui,sans-serif;font-size:21px;line-height:1.85;padding-bottom:calc(88px + env(safe-area-inset-bottom,0px))}
+body.locked{overflow:hidden}
+main:focus{outline:none}
+img{max-width:100%;display:block}
+h1,h2,h3{line-height:1.3;margin:0}
+p{margin:0}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:4px solid var(--accent-d);outline-offset:3px}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:60px;padding:10px 26px;border-radius:30px;border:3px solid var(--accent-d);background:var(--accent);color:var(--on-accent);font-size:21px;font-weight:700;white-space:nowrap}
+.btn.alt{background:var(--card);color:var(--ink)}
+.btn:active{transform:scale(.98)}
+
+/* curtain */
+#curtain{position:fixed;inset:0;z-index:100;overflow:hidden;background:var(--paper)}
+#curtain .panel{position:absolute;top:0;bottom:0;width:50.5%;background:repeating-linear-gradient(90deg,var(--curtain1) 0 36px,var(--curtain2) 36px 72px);transition:transform .9s cubic-bezier(.6,.05,.3,1);box-shadow:0 0 30px var(--shadow)}
+#curtain .panel.l{left:0}
+#curtain .panel.r{right:0}
+#curtain .stage{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:calc(100% - 40px);max-width:500px;background:var(--card);border:3px solid var(--accent-d);border-radius:28px;padding:30px 24px;text-align:center;box-shadow:0 10px 30px var(--shadow);transition:opacity .45s ease}
+.stage .big{font-size:68px;font-weight:900;line-height:1.1}
+.stage .sub{font-size:27px;font-weight:700;margin-top:6px}
+.stage .small{font-size:21px;color:var(--soft);margin-top:10px}
+.stage .hint{font-size:19px;color:var(--soft);margin-top:14px}
+.stage .btns{display:grid;gap:14px;margin-top:20px}
+#curtain.open .panel.l{transform:translateX(-102%)}
+#curtain.open .panel.r{transform:translateX(102%)}
+#curtain.open .stage{opacity:0;pointer-events:none}
+
+/* layout */
+.wrap{width:min(100% - 32px,980px);margin:0 auto}
+.site-head{text-align:center;padding:36px 0 8px}
+.site-head h1{font-size:clamp(46px,12vw,72px);font-weight:900}
+.site-head p{font-size:26px;font-weight:700;color:var(--soft)}
+.hall{padding:44px 0 20px;scroll-margin-top:12px}
+.hall>.wrap>h2{font-size:clamp(32px,7.5vw,44px);font-weight:900;text-align:center;margin-bottom:10px}
+.hall>.wrap>h2::after{content:"";display:block;width:90px;height:8px;border-radius:4px;background:var(--accent);margin:12px auto 0}
+.lead{text-align:center;max-width:640px;margin:14px auto 22px}
+
+/* sticky note cards */
+.note{position:relative;max-width:720px;margin:34px auto 0;padding:34px 26px 28px;background:var(--note1);color:var(--note-ink);border-radius:6px;box-shadow:0 8px 18px var(--shadow);transform:rotate(-.6deg)}
+.note:nth-of-type(even){transform:rotate(.7deg)}
+.note::before{content:"";position:absolute;top:-14px;left:50%;width:96px;height:28px;margin-left:-48px;background:rgba(255,255,255,.55);border:1px dashed rgba(120,90,60,.35);transform:rotate(-2deg)}
+.note.n2{background:var(--note2)} .note.n3{background:var(--note3)} .note.n4{background:var(--note4)}
+.note h3{font-size:25px;font-weight:900;margin-bottom:8px}
+.note p{font-size:22px;line-height:1.9;overflow-wrap:anywhere}
+.note.quote{text-align:center;padding:44px 26px}
+.note.quote p{font-size:clamp(26px,6.5vw,34px);font-weight:800;line-height:1.7}
+
+.pin{width:120px;margin:22px auto 0;background:var(--sticker-bg);border-radius:18px;padding:6px;box-shadow:0 6px 14px var(--shadow)}
+
+/* hero */
+.hero{width:min(80vw,420px);margin:6px auto 0;background:var(--sticker-bg);border:3px solid var(--accent-d);border-radius:28px;box-shadow:0 10px 24px var(--shadow);overflow:hidden}
+.hero img,.hero .cellbox{width:100%;height:auto}
+.center{text-align:center;margin-top:22px}
+
+/* animation tiles */
+.grid{display:grid;gap:18px;grid-template-columns:repeat(2,1fr);margin-top:8px}
+@media (min-width:640px){.grid{grid-template-columns:repeat(3,1fr)}}
+@media (min-width:900px){.grid{grid-template-columns:repeat(4,1fr)}}
+.tile{display:flex;flex-direction:column;align-items:center;gap:6px;padding:10px 10px 12px;border:0;border-radius:8px;background:var(--note1);color:var(--note-ink);box-shadow:0 6px 14px var(--shadow);text-align:center;min-height:56px}
+.tile.t2{background:var(--note2)} .tile.t3{background:var(--note3)} .tile.t4{background:var(--note4)}
+.tile:nth-child(odd){transform:rotate(-.8deg)} .tile:nth-child(even){transform:rotate(.8deg)}
+.tile .thumb{width:100%;aspect-ratio:1/1;background:var(--sticker-bg);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:40px;font-weight:900;color:#4A3B32}
+.tile .thumb img{width:100%;height:100%;object-fit:contain}
+.tile .cap{font-size:19px;font-weight:700;line-height:1.4}
+.tile .go{font-size:19px;font-weight:800;text-decoration:underline;text-underline-offset:4px;min-height:34px}
+
+/* sticker wall */
+.board{margin:34px auto 0;padding:22px 14px 18px;background:var(--card);border:3px dashed var(--line);border-radius:18px}
+.board h3{font-size:27px;font-weight:900;text-align:center;margin-bottom:14px}
+.stickers{display:grid;gap:12px;grid-template-columns:repeat(3,1fr)}
+@media (min-width:640px){.stickers{grid-template-columns:repeat(4,1fr)}}
+@media (min-width:900px){.stickers{grid-template-columns:repeat(5,1fr)}}
+.stk{display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px 4px 6px;border:2px solid var(--line);border-radius:10px;background:var(--sticker-bg);color:#4A3B32;min-height:56px}
+.stk .cap{font-size:17px;font-weight:700}
+.cellbox{width:100%;display:flex;align-items:center;justify-content:center;background:var(--sticker-bg)}
+.cell{background-repeat:no-repeat}
+
+/* screenshots */
+.shots{display:grid;gap:22px;margin:34px auto 0;max-width:720px}
+.shot{margin:0;background:var(--card);border:3px solid var(--line);border-radius:14px;padding:10px}
+.shot .view{width:100%;aspect-ratio:2/1;background-repeat:no-repeat;border-radius:8px;border:1px solid var(--line)}
+.shot figcaption{font-size:21px;font-weight:700;margin-top:8px}
+
+footer{text-align:center;padding:30px 0 10px;color:var(--soft)}
+
+/* bottom nav */
+.nav{position:fixed;left:0;right:0;bottom:0;z-index:50;display:flex;gap:8px;justify-content:center;padding:8px 8px calc(8px + env(safe-area-inset-bottom,0px));background:var(--paper);border-top:3px solid var(--line)}
+.nav .btn{flex:1 1 auto;min-height:56px;padding:6px 12px;font-size:18px;max-width:240px}
+
+/* dialogs */
+dialog{border:3px solid var(--accent-d);border-radius:22px;background:var(--paper);color:var(--ink);padding:18px;max-width:min(96vw,720px);width:100%;max-height:96vh;overflow:auto}
+[hidden]{display:none!important}
+dialog::backdrop{background:rgba(30,20,12,.7)}
+#toc ul{list-style:none;margin:0 0 14px;padding:0;display:grid;gap:10px}
+#toc a{display:flex;align-items:center;min-height:60px;padding:8px 20px;border-radius:16px;border:2px solid var(--line);background:var(--card);color:var(--ink);text-decoration:none;font-size:22px;font-weight:800}
+#toc .btn,#lb .btn{width:100%}
+#lb .stage-box{display:flex;align-items:center;justify-content:center;min-height:200px;touch-action:pan-y}
+#lb .lb-img{width:min(100%,460px);aspect-ratio:1/1;object-fit:contain;background:var(--sticker-bg);border-radius:18px}
+#lb .cellbox.big{width:min(100%,460px);border-radius:18px}
+#lb .count{text-align:center;font-size:20px;font-weight:700;margin:10px 0}
+#lb .row{display:grid;gap:10px;grid-template-columns:1fr 1fr;margin-top:8px}
+#lb .row.three{grid-template-columns:1fr 1fr 1fr}
+#lb .row .btn{padding:6px 8px;font-size:19px}
+
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto}
+  *{transition:none!important;animation:none!important}
+}
+</style>
+</head>
+<body class="locked">
+
+<div id="curtain">
+  <div class="panel l"></div>
+  <div class="panel r"></div>
+  <div class="stage">
+    <div class="big">Pei</div>
+    <div class="sub">LINE 貼圖創作展</div>
+    <div class="small">大膽創作，從這裡開始</div>
+    <div class="btns">
+      <button type="button" class="btn" id="open-curtain">拉開布幕</button>
+      <button type="button" class="btn alt" id="skip-curtain">直接進入展覽</button>
+    </div>
+    <div class="hint">輕點一下，布幕就會拉開</div>
+  </div>
+</div>
+
+<main id="main" tabindex="-1" inert>
+  <header class="site-head wrap">
+    <h1>Pei</h1>
+    <p>LINE 貼圖創作展</p>
+  </header>
+  <div id="halls"></div>
+  <footer class="wrap" id="foot"></footer>
+</main>
+
+<nav class="nav" id="nav" aria-label="展覽目錄" inert>
+  <button type="button" class="btn alt" id="btn-toc">展覽目錄</button>
+  <button type="button" class="btn alt" id="btn-hero">回到主角作品</button>
+  <button type="button" class="btn alt" id="btn-top">回頂端</button>
+</nav>
+
+<dialog id="toc" aria-label="展覽目錄">
+  <ul id="toc-list"></ul>
+  <button type="button" class="btn" id="toc-close">關閉</button>
+</dialog>
+
+<dialog id="lb" aria-label="放大播放">
+  <div class="stage-box" id="lb-stage"></div>
+  <div class="count" id="lb-count"></div>
+  <div class="row three" id="lb-anim">
+    <button type="button" class="btn alt" id="lb-pause">暫停播放</button>
+    <button type="button" class="btn alt" id="lb-replay">重新播放</button>
+    <span></span>
+  </div>
+  <div class="row">
+    <button type="button" class="btn alt" id="lb-prev">上一張</button>
+    <button type="button" class="btn alt" id="lb-next">下一張</button>
+  </div>
+  <div class="row" style="grid-template-columns:1fr"><button type="button" class="btn" id="lb-close">關閉</button></div>
+</dialog>
+
+<script>
+(function(){
+"use strict";
+var A = "assets/";
+
+/* ===== 內容資料（新增作品只要在這裡加一筆） ===== */
+var DATA = {
+  heroNote: "這組會佔滿整個螢幕的貼圖，是這場展覽的主角。",
+  popups: [
+    {f:"01_popup.png", d:"雙手比愛心、周圍有愛心"},
+    {f:"02_popup.png", d:"拿著彩帶筒開心大笑"},
+    {f:"03_popup.png", d:"雙手合十、花瓣飄落"},
+    {f:"04_popup.png", d:"握拳加油、背後有火花"},
+    {f:"05_popup.png", d:"抱著星星枕頭睡覺"},
+    {f:"06_popup.png", d:"大哭、淚水飛濺"},
+    {f:"07_popup.png", d:"雙手比讚、周圍有星星"},
+    {f:"08_popup.png", d:"驚嚇地雙手摀臉"},
+    {f:"09_popup.png", d:"揮手打招呼、旁有對話泡泡"},
+    {f:"10_popup.png", d:"捧著愛心咖啡杯"},
+    {f:"11_popup.png", d:"比 OK 手勢、周圍有泡泡與星星"},
+    {f:"12_popup.png", d:"雙手合十、神情擔憂、周圍有愛心"},
+    {f:"13_popup.png", d:"雙手舉高歡呼、彩帶飛舞"},
+    {f:"14_popup.png", d:"張開雙手、花瓣飄落"},
+    {f:"15_popup.png", d:"雙手比愛心、旁有櫻花"},
+    {f:"16_popup.png", d:"雙手托臉驚慌、頭上有烏雲"}
+  ],
+  groups: [
+    {id:"g1", name:"有文字的貼圖", f:"ChatGPT_圖像_2026年9月27日_上午09_00_38.png", w:1555, h:1011, cols:5, rows:4, cb:[0,320,635,924,1232,1555], rb:[0,256,504,756,1011]},
+    {id:"g2", name:"純圖案的貼圖", f:"ChatGPT_圖像_2026年9月27日_上午09_03_00.png", w:1555, h:1011, cols:5, rows:4, cb:[0,325,632,918,1246,1555], rb:[0,257,500,752,1011]},
+    {id:"g3", name:"日常 Q 版",   f:"可愛Q版日常貼紙角色合集.png", w:1205, h:1305, cols:4, rows:5, cb:[0,302,597,916,1205], rb:[0,260,512,765,1019,1305]},
+    {id:"g4", name:"老師的動作與表情", f:"可愛老師動作表情貼圖合集.png", w:1108, h:1419, cols:4, rows:5, cb:[0,284,556,849,1108], rb:[0,297,559,832,1098,1419]}
+  ],
+  notes: {
+    impressive: {tag:"印象深刻", text:"全螢幕貼圖，因為貼圖會佔滿整個螢幕，原本思考這種貼圖需利用line creator market上架較複雜且創作人自己創作的貼圖也需要購買，而未規劃教學內容中，但因同學的積極樂學，而加入嘗試，帶入課程，"},
+    why:       {tag:"初心", text:"以自己為例設計貼圖，想要帶領學生設計貼圖；也有以家人為例設計貼圖，想要給家人用。選擇的貼圖主題情境是與生活、工作有關，可以在日常生活使用。"},
+    process:   {tag:"創作過程", text:"為了方便30+大學學生設計網頁，製作網站提供主題選項，讓同學方便取得提示詞，又考量到AI免費帳號生圖的限制，需要一張大圖生成多張貼圖情境，後續需要做分割、去背的動作，以及上架貼圖之相關大小、動態規定等限制，為了簡化流程，方便大家設計"},
+    challenge: {tag:"挑戰突破", text:"教學過程中，網站的使用需要依使用者使用情況，進行即時調整，還好有AI，可以加速調整。"},
+    growth:    {tag:"學習與成長", text:"為了使用者方便，需將過程步驟化，簡單化，學會了從使用者角度，不便優化流程設計。"},
+    selfbreak: {tag:"自我突破", text:"看到同學們一個個產出作品，也跟我分享，家人看到作品的一些溫馨互動，覺得很開心"},
+    future:    {tag:"未來應用", text:"也教同學們設計網站，依需求來設計網站。"},
+    share:     {tag:"作品分享", text:"大家都覺得很驚艷"},
+    insight:   {text:"數位也能拉近人與人之間的關係，產生好的互動。"}
+  },
+  /* 網站截圖：只用 CSS 裁切顯示（原圖不改）；bg 為放大倍率，x/y 為裁切位置 */
+  shots: [
+    {f:"1793744655099_image.png", cap:"網站畫面一：產生提示詞", bg:160, x:0, y:30},
+    {f:"1793744658433_image.png", cap:"網站畫面二：上傳、分割與去背", bg:160, x:0, y:0},
+    {f:"1793744661466_image.png", cap:"網站畫面三：全螢幕貼圖製作", bg:160, x:0, y:0}
+  ],
+  foot: "謝謝你來看展，也歡迎大膽試試看"
+};
+
+var HALLS = [
+  {id:"hall-1", title:"大膽一試",       toc:"大膽一試"},
+  {id:"hall-2", title:"動起來的貼圖",   toc:"動起來的貼圖"},
+  {id:"hall-3", title:"貼圖牆",         toc:"貼圖牆"},
+  {id:"hall-4", title:"為什麼做",       toc:"為什麼做"},
+  {id:"hall-5", title:"怎麼做出來",     toc:"怎麼做出來"},
+  {id:"hall-6", title:"學到的事",       toc:"學到的事"},
+  {id:"hall-7", title:"分享之後",       toc:"分享之後"},
+  {id:"hall-8", title:"一句話",         toc:"一句話"}
+];
+
+var mqReduce = window.matchMedia("(prefers-reduced-motion: reduce)");
+function reduce(){ return mqReduce.matches; }
+function $(id){ return document.getElementById(id); }
+function url(f){ return A + encodeURI(f); }
+function pad(n){ return (n < 10 ? "0" : "") + n; }
+function mk(tag, cls, text){
+  var e = document.createElement(tag);
+  if (cls) e.className = cls;
+  if (text != null) e.textContent = text;
+  return e;
+}
+function groupById(id){ for (var i=0;i<DATA.groups.length;i++) if (DATA.groups[i].id===id) return DATA.groups[i]; }
+
+/* 從貼圖總覽裁出單張（用 CSS 背景定位，原圖不改）
+   cb／rb 是各格的分界線；每張照原比例放進同樣大小的框裡 */
+function dims(g){
+  if (!g.mw){
+    var mw = 0, mh = 0, i;
+    for (i=0;i<g.cols;i++) mw = Math.max(mw, g.cb[i+1]-g.cb[i]);
+    for (i=0;i<g.rows;i++) mh = Math.max(mh, g.rb[i+1]-g.rb[i]);
+    g.mw = mw; g.mh = mh;
+  }
+  return g;
+}
+function cell(g, i, cls){
+  dims(g);
+  var c = i % g.cols, r = Math.floor(i / g.cols);
+  var x0 = g.cb[c], x1 = g.cb[c+1], y0 = g.rb[r], y1 = g.rb[r+1];
+  var w = x1 - x0, h = y1 - y0;
+  var box = mk("div", "cellbox" + (cls ? " " + cls : ""));
+  box.style.aspectRatio = g.mw + " / " + g.mh;
+  var d = mk("div", "cell");
+  d.style.width = (w / g.mw * 100) + "%";
+  d.style.aspectRatio = w + " / " + h;
+  d.style.backgroundImage = 'url("' + url(g.f) + '")';
+  d.style.backgroundSize = (g.w / w * 100) + "% auto";
+  d.style.backgroundPosition = (g.w > w ? x0 / (g.w - w) * 100 : 0) + "% " + (g.h > h ? y0 / (g.h - h) * 100 : 0) + "%";
+  box.appendChild(d);
+  return box;
+}
+
+function note(n, k, extraCls){
+  var a = mk("article", "note n" + ((k % 4) + 1) + (extraCls ? " " + extraCls : ""));
+  if (n.tag) a.appendChild(mk("h3", "", n.tag));
+  a.appendChild(mk("p", "", n.text));
+  return a;
+}
+function pin(gid, i){
+  var g = groupById(gid), box = mk("div", "pin");
+  var c = cell(g, i); c.setAttribute("aria-hidden", "true");
+  box.appendChild(c);
+  return box;
+}
+
+/* ===== 放大視窗 ===== */
+var lb = $("lb"), lbStage = $("lb-stage"), lbCount = $("lb-count"), lbAnim = $("lb-anim");
+var lbList = [], lbIdx = 0, lbTrigger = null;
+
+function popupItems(){
+  return DATA.popups.map(function(p, i){
+    return {type:"popup", f:p.f, alt:"全螢幕貼圖 " + pad(i+1) + "：" + p.d};
+  });
+}
+function groupItems(g){
+  var n = g.cols * g.rows, out = [];
+  for (var i=0;i<n;i++) out.push({type:"sticker", g:g, i:i, alt:g.name + "，第 " + (i+1) + " 張"});
+  return out;
+}
+function renderLB(){
+  var it = lbList[lbIdx];
+  lbStage.textContent = "";
+  if (it.type === "popup"){
+    var img = new Image();
+    img.className = "lb-img";
+    img.alt = it.alt;
+    img.src = url(it.f);
+    lbStage.appendChild(img);
+    lbAnim.hidden = false;
+  } else {
+    var c = cell(it.g, it.i, "big");
+    c.setAttribute("role", "img");
+    c.setAttribute("aria-label", it.alt);
+    lbStage.appendChild(c);
+    lbAnim.hidden = true;
+  }
+  lbCount.textContent = (lbIdx+1) + " / " + lbList.length;
+}
+function openLB(list, idx, trigger){
+  lbList = list; lbIdx = idx; lbTrigger = trigger || null;
+  renderLB();
+  if (!lb.open) lb.showModal();
+}
+function stepLB(d){
+  lbIdx = (lbIdx + d + lbList.length) % lbList.length;
+  renderLB();
+}
+function freezeLB(){
+  var img = lbStage.querySelector("img");
+  if (!img) return;
+  var c = document.createElement("canvas");
+  c.width = img.naturalWidth || 480; c.height = img.naturalHeight || 480;
+  try { c.getContext("2d").drawImage(img, 0, 0); } catch(e){ return; }
+  c.className = "lb-img";
+  c.setAttribute("role", "img");
+  c.setAttribute("aria-label", img.alt);
+  img.replaceWith(c);
+}
+$("lb-prev").addEventListener("click", function(){ stepLB(-1); });
+$("lb-next").addEventListener("click", function(){ stepLB(1); });
+$("lb-close").addEventListener("click", function(){ lb.close(); });
+$("lb-pause").addEventListener("click", freezeLB);
+$("lb-replay").addEventListener("click", renderLB);
+lb.addEventListener("close", function(){ lbStage.textContent = ""; if (lbTrigger && lbTrigger.focus) lbTrigger.focus({preventScroll:true}); });
+lb.addEventListener("click", function(e){ if (e.target === lb) lb.close(); });
+lb.addEventListener("keydown", function(e){
+  if (e.key === "ArrowLeft"){ e.preventDefault(); stepLB(-1); }
+  else if (e.key === "ArrowRight"){ e.preventDefault(); stepLB(1); }
+});
+(function(){
+  var sx = null, sy = null;
+  lbStage.addEventListener("pointerdown", function(e){ sx = e.clientX; sy = e.clientY; });
+  lbStage.addEventListener("pointerup", function(e){
+    if (sx === null) return;
+    var dx = e.clientX - sx, dy = e.clientY - sy;
+    sx = sy = null;
+    if (Math.abs(dx) > 50 && Math.abs(dy) < 60) stepLB(dx < 0 ? 1 : -1);
+  });
+  lbStage.addEventListener("pointercancel", function(){ sx = sy = null; });
+})();
+
+/* ===== 建立頁面 ===== */
+function buildHalls(){
+  var root = $("halls");
+  var sections = {};
+  HALLS.forEach(function(h){
+    var s = mk("section", "hall"); s.id = h.id; s.setAttribute("aria-labelledby", h.id + "-t");
+    var w = mk("div", "wrap");
+    var t = mk("h2", "", h.title); t.id = h.id + "-t";
+    w.appendChild(t); s.appendChild(w); root.appendChild(s);
+    sections[h.id] = w;
+  });
+
+  /* 一：大膽一試 */
+  var w1 = sections["hall-1"];
+  w1.appendChild(mk("p", "lead", DATA.heroNote));
+  var hero = mk("div", "hero");
+  if (!reduce()){
+    var himg = new Image();
+    himg.src = url(DATA.popups[0].f);
+    himg.alt = popupItems()[0].alt;
+    himg.width = 480; himg.height = 480;
+    hero.appendChild(himg);
+  } else {
+    var hc = cell(groupById("g2"), 1);
+    hc.setAttribute("role", "img");
+    hc.setAttribute("aria-label", popupItems()[0].alt);
+    hero.appendChild(hc);
+  }
+  w1.appendChild(hero);
+  var c1 = mk("div", "center");
+  var b1 = mk("button", "btn", "看它動起來"); b1.type = "button";
+  b1.addEventListener("click", function(){ openLB(popupItems(), 0, b1); });
+  c1.appendChild(b1); w1.appendChild(c1);
+  w1.appendChild(note(DATA.notes.impressive, 0));
+
+  /* 二：動起來的貼圖 */
+  var w2 = sections["hall-2"];
+  w2.appendChild(mk("p", "lead", "共 16 張全螢幕動畫，點一下放大播放。"));
+  var grid = mk("div", "grid");
+  popupItems().forEach(function(it, i){
+    var b = mk("button", "tile t" + ((i % 4) + 1)); b.type = "button";
+    var th = mk("div", "thumb");
+    if (!reduce()){
+      var im = new Image();
+      im.loading = "lazy"; im.decoding = "async";
+      im.src = url(it.f); im.alt = it.alt; im.width = 480; im.height = 480;
+      th.appendChild(im);
+    } else {
+      th.textContent = pad(i+1);
+      b.setAttribute("aria-label", it.alt + "，放大播放");
+    }
+    b.appendChild(th);
+    var cap = mk("span", "cap", "全螢幕貼圖 " + pad(i+1)); cap.setAttribute("aria-hidden", "true");
+    b.appendChild(cap);
+    b.appendChild(mk("span", "go", "放大播放"));
+    b.addEventListener("click", function(){ openLB(popupItems(), i, b); });
+    grid.appendChild(b);
+  });
+  w2.appendChild(grid);
+
+  /* 三：貼圖牆 */
+  var w3 = sections["hall-3"];
+  w3.appendChild(mk("p", "lead", "四組貼圖，每組 20 張，點一下放大。"));
+  DATA.groups.forEach(function(g){
+    var board = mk("section", "board"); board.setAttribute("aria-label", g.name);
+    board.appendChild(mk("h3", "", g.name));
+    var wall = mk("div", "stickers");
+    var items = groupItems(g);
+    items.forEach(function(it, i){
+      var b = mk("button", "stk"); b.type = "button";
+      b.setAttribute("aria-label", it.alt);
+      b.appendChild(cell(g, i));
+      var cap = mk("span", "cap", "第 " + (i+1) + " 張"); cap.setAttribute("aria-hidden", "true");
+      b.appendChild(cap);
+      b.addEventListener("click", function(){ openLB(items, i, b); });
+      wall.appendChild(b);
+    });
+    board.appendChild(wall);
+    w3.appendChild(board);
+  });
+
+  /* 四：為什麼做 */
+  sections["hall-4"].appendChild(note(DATA.notes.why, 1));
+  sections["hall-4"].appendChild(pin("g2", 1));
+
+  /* 五：怎麼做出來 */
+  var w5 = sections["hall-5"];
+  w5.appendChild(note(DATA.notes.process, 2));
+  var shots = mk("div", "shots");
+  DATA.shots.forEach(function(s){
+    var fig = mk("figure", "shot");
+    var v = mk("div", "view");
+    v.setAttribute("role", "img");
+    v.setAttribute("aria-label", s.cap + "的畫面");
+    v.style.backgroundImage = 'url("' + url(s.f) + '")';
+    v.style.backgroundSize = s.bg + "% auto";
+    v.style.backgroundPosition = s.x + "% " + s.y + "%";
+    fig.appendChild(v);
+    fig.appendChild(mk("figcaption", "", s.cap));
+    shots.appendChild(fig);
+  });
+  w5.appendChild(shots);
+  w5.appendChild(note(DATA.notes.challenge, 3));
+
+  /* 六：學到的事 */
+  var w6 = sections["hall-6"];
+  w6.appendChild(note(DATA.notes.growth, 0));
+  w6.appendChild(note(DATA.notes.selfbreak, 1));
+  w6.appendChild(note(DATA.notes.future, 2));
+  w6.appendChild(pin("g3", 14));
+
+  /* 七：分享之後 */
+  var w7 = sections["hall-7"];
+  w7.appendChild(note(DATA.notes.share, 3));
+  w7.appendChild(pin("g4", 4));
+
+  /* 八：一句話 */
+  var w8 = sections["hall-8"];
+  w8.appendChild(note(DATA.notes.insight, 0, "quote"));
+  w8.appendChild(pin("g2", 3));
+  $("foot").textContent = DATA.foot;
+}
+
+function buildToc(){
+  var ul = $("toc-list");
+  HALLS.forEach(function(h){
+    var li = document.createElement("li");
+    var a = mk("a", "", h.toc); a.href = "#" + h.id;
+    a.addEventListener("click", function(e){
+      e.preventDefault();
+      $("toc").close();
+      goTo(h.id);
+    });
+    li.appendChild(a); ul.appendChild(li);
+  });
+}
+
+function goTo(id){
+  var el = $(id);
+  if (!el) return;
+  try { history.replaceState(null, "", "#" + id); } catch(e){}
+  el.scrollIntoView({behavior: reduce() ? "auto" : "smooth", block:"start"});
+}
+
+/* ===== 布幕 ===== */
+var curtain = $("curtain"), main = $("main"), nav = $("nav");
+function enter(instant){
+  function done(){
+    curtain.hidden = true;
+    document.body.classList.remove("locked");
+    main.inert = false; nav.inert = false;
+    main.focus({preventScroll:true});
+  }
+  curtain.classList.add("open");
+  if (instant || reduce()){ done(); }
+  else {
+    document.body.classList.remove("locked");
+    setTimeout(done, 950);
+  }
+}
+$("open-curtain").addEventListener("click", function(){ enter(false); });
+$("skip-curtain").addEventListener("click", function(){ enter(true); });
+
+$("btn-toc").addEventListener("click", function(){ $("toc").showModal(); });
+$("toc-close").addEventListener("click", function(){ $("toc").close(); });
+$("toc").addEventListener("click", function(e){ if (e.target === $("toc")) $("toc").close(); });
+$("btn-hero").addEventListener("click", function(){ goTo("hall-1"); });
+$("btn-top").addEventListener("click", function(){
+  try { history.replaceState(null, "", location.pathname + location.search); } catch(e){}
+  window.scrollTo({top:0, behavior: reduce() ? "auto" : "smooth"});
+});
+
+buildHalls();
+buildToc();
+
+/* 帶有 #hall-N 的連結直接進入展覽 */
+if (/^#hall-[1-8]$/.test(location.hash) && $(location.hash.slice(1))){
+  enter(true);
+  setTimeout(function(){ $(location.hash.slice(1)).scrollIntoView({block:"start"}); }, 50);
+}
+window.addEventListener("hashchange", function(){
+  var id = location.hash.slice(1);
+  if (/^hall-[1-8]$/.test(id) && $(id) && curtain.hidden) $(id).scrollIntoView({behavior: reduce() ? "auto" : "smooth", block:"start"});
+});
+})();
+</script>
+</body>
+</html>
